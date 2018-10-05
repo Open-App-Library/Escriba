@@ -1,0 +1,20 @@
+This file will document changes we make to MRichTextEdit
+--------------------------------------------------------
+
+-------------
+Basic Changes
+-------------
+
+* Renamed all instances of 'MRichTextEdit' to 'Escriba'.
+
+* Create custom README.md file.
+
+* Modify the .pro file in order to make this widget portable.
+
+* Renamed test.cpp to example.cpp and remade the example. It is meant as an example of how to implement this into your project.
+
+--------------------------
+Core Functionality Changes
+--------------------------
+
+* 
