@@ -5,7 +5,7 @@ This file will document changes we make to MRichTextEdit
 Basic Changes
 -------------
 
-* Renamed all instances of 'MRichTextEdit' to 'Escriba'.
+* Renamed the software to Escriba and changed class/file names accordingly.
 
 * Create custom README.md file.
 
