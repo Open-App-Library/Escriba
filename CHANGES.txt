@@ -13,6 +13,8 @@ Basic Changes
 
 * Renamed test.cpp to example.cpp and remade the example. It is meant as an example of how to implement this into your project.
 
+* Removed example.png
+
 --------------------------
 Core Functionality Changes
 --------------------------
