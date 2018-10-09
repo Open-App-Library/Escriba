@@ -15,6 +15,10 @@ Basic Changes
 
 * Removed example.png
 
+* Revamped the UI file
+
+* Added cross-platform icon-theme support.
+
 --------------------------
 Core Functionality Changes
 --------------------------

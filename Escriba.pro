@@ -4,3 +4,5 @@ FORMS += $$PWD/escriba.ui
 
 DEPENDPATH += $$PWD
 INCLUDEPATH += $$PWD
+
+RESOURCES +=

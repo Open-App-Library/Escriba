@@ -88,19 +88,19 @@ Escriba::Escriba(QWidget *parent) : QWidget(parent) {
 
     // cut, copy & paste
 
-    f_cut->setShortcut(QKeySequence::Cut);
-    f_copy->setShortcut(QKeySequence::Copy);
-    f_paste->setShortcut(QKeySequence::Paste);
+    //f_cut->setShortcut(QKeySequence::Cut);
+    //f_copy->setShortcut(QKeySequence::Copy);
+    //f_paste->setShortcut(QKeySequence::Paste);
 
-    f_cut->setEnabled(false);
-    f_copy->setEnabled(false);
+    //f_cut->setEnabled(false);
+    //f_copy->setEnabled(false);
 
-    connect(f_cut, SIGNAL(clicked()), f_textedit, SLOT(cut()));
-    connect(f_copy, SIGNAL(clicked()), f_textedit, SLOT(copy()));
-    connect(f_paste, SIGNAL(clicked()), f_textedit, SLOT(paste()));
+    //connect(f_cut, SIGNAL(clicked()), f_textedit, SLOT(cut()));
+    //connect(f_copy, SIGNAL(clicked()), f_textedit, SLOT(copy()));
+    //connect(f_paste, SIGNAL(clicked()), f_textedit, SLOT(paste()));
 
-    connect(f_textedit, SIGNAL(copyAvailable(bool)), f_cut, SLOT(setEnabled(bool)));
-    connect(f_textedit, SIGNAL(copyAvailable(bool)), f_copy, SLOT(setEnabled(bool)));
+    //connect(f_textedit, SIGNAL(copyAvailable(bool)), f_cut, SLOT(setEnabled(bool)));
+    //connect(f_textedit, SIGNAL(copyAvailable(bool)), f_copy, SLOT(setEnabled(bool)));
 
 #ifndef QT_NO_CLIPBOARD
     connect(QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(slotClipboardDataChanged()));
@@ -154,37 +154,37 @@ Escriba::Escriba(QWidget *parent) : QWidget(parent) {
 
     // indentation
 
-    f_indent_dec->setShortcut(Qt::CTRL + Qt::Key_Comma);
-    f_indent_inc->setShortcut(Qt::CTRL + Qt::Key_Period);
+//    f_indent_dec->setShortcut(Qt::CTRL + Qt::Key_Comma);
+//    f_indent_inc->setShortcut(Qt::CTRL + Qt::Key_Period);
 
-    connect(f_indent_inc, SIGNAL(clicked()), this, SLOT(increaseIndentation()));
-    connect(f_indent_dec, SIGNAL(clicked()), this, SLOT(decreaseIndentation()));
+//    connect(f_indent_inc, SIGNAL(clicked()), this, SLOT(increaseIndentation()));
+//    connect(f_indent_dec, SIGNAL(clicked()), this, SLOT(decreaseIndentation()));
 
     // font size
 
     QFontDatabase db;
-    foreach(int size, db.standardSizes())
-        f_fontsize->addItem(QString::number(size));
+//    foreach(int size, db.standardSizes())
+//        f_fontsize->addItem(QString::number(size));
 
-    connect(f_fontsize, SIGNAL(activated(QString)),
-            this, SLOT(textSize(QString)));
-    f_fontsize->setCurrentIndex(f_fontsize->findText(QString::number(QApplication::font()
-                                                                   .pointSize())));
+//    connect(f_fontsize, SIGNAL(activated(QString)),
+//            this, SLOT(textSize(QString)));
+//    f_fontsize->setCurrentIndex(f_fontsize->findText(QString::number(QApplication::font()
+//                                                                   .pointSize())));
 
     // text foreground color
 
     QPixmap pix(16, 16);
     pix.fill(QApplication::palette().foreground().color());
-    f_fgcolor->setIcon(pix);
+//    f_fgcolor->setIcon(pix);
 
-    connect(f_fgcolor, SIGNAL(clicked()), this, SLOT(textFgColor()));
+//    connect(f_fgcolor, SIGNAL(clicked()), this, SLOT(textFgColor()));
 
     // text background color
 
     pix.fill(QApplication::palette().background().color());
-    f_bgcolor->setIcon(pix);
+//    f_bgcolor->setIcon(pix);
 
-    connect(f_bgcolor, SIGNAL(clicked()), this, SLOT(textBgColor()));
+//    connect(f_bgcolor, SIGNAL(clicked()), this, SLOT(textBgColor()));
 
     // images
     connect(f_image, SIGNAL(clicked()), this, SLOT(insertImage()));
@@ -223,7 +223,7 @@ void Escriba::textRemoveFormat() {
     f_underline ->setChecked(false);
     f_italic    ->setChecked(false);
     f_strikeout ->setChecked(false);
-    f_fontsize  ->setCurrentIndex(f_fontsize->findText("9"));
+//    f_fontsize  ->setCurrentIndex(f_fontsize->findText("9"));
 
 //  QTextBlockFormat bfmt = cursor.blockFormat();
 //  bfmt->setIndent(0);
@@ -239,7 +239,7 @@ void Escriba::textRemoveAllFormat() {
     f_underline ->setChecked(false);
     f_italic    ->setChecked(false);
     f_strikeout ->setChecked(false);
-    f_fontsize  ->setCurrentIndex(f_fontsize->findText("9"));
+//    f_fontsize  ->setCurrentIndex(f_fontsize->findText("9"));
     QString text = f_textedit->toPlainText();
     f_textedit->setPlainText(text);
 }
@@ -462,7 +462,7 @@ void Escriba::slotCursorPositionChanged() {
 }
 
 void Escriba::fontChanged(const QFont &f) {
-    f_fontsize->setCurrentIndex(f_fontsize->findText(QString::number(f.pointSize())));
+    //f_fontsize->setCurrentIndex(f_fontsize->findText(QString::number(f.pointSize())));
     f_bold->setChecked(f.bold());
     f_italic->setChecked(f.italic());
     f_underline->setChecked(f.underline());
@@ -507,7 +507,7 @@ void Escriba::fgColorChanged(const QColor &c) {
       } else {
         pix.fill(QApplication::palette().foreground().color());
         }
-    f_fgcolor->setIcon(pix);
+//    f_fgcolor->setIcon(pix);
 }
 
 void Escriba::bgColorChanged(const QColor &c) {
@@ -517,7 +517,7 @@ void Escriba::bgColorChanged(const QColor &c) {
       } else {
         pix.fill(QApplication::palette().background().color());
         }
-    f_bgcolor->setIcon(pix);
+//    f_bgcolor->setIcon(pix);
 }
 
 void Escriba::slotCurrentCharFormatChanged(const QTextCharFormat &format) {
@@ -529,8 +529,8 @@ void Escriba::slotCurrentCharFormatChanged(const QTextCharFormat &format) {
 
 void Escriba::slotClipboardDataChanged() {
 #ifndef QT_NO_CLIPBOARD
-    if (const QMimeData *md = QApplication::clipboard()->mimeData())
-        f_paste->setEnabled(md->hasText());
+//    if (const QMimeData *md = QApplication::clipboard()->mimeData())
+//        f_paste->setEnabled(md->hasText());
 #endif
 }
 
