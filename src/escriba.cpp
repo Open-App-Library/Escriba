@@ -42,7 +42,10 @@
 Escriba::Escriba(QWidget *parent) : QWidget(parent) {
     setupUi(this);
     m_lastBlockList = nullptr;
+
     f_richTextEdit->setTabStopDistance(40);
+
+    m_markdownSyntax = new MarkdownSyntax( f_plainTextEdit->document() );
 
     connect(f_richTextEdit, SIGNAL(currentCharFormatChanged(QTextCharFormat)),
             this,     SLOT(slotCurrentCharFormatChanged(QTextCharFormat)));
@@ -589,4 +592,7 @@ void Escriba::insertImage() {
 
 }
 
+Escriba::~Escriba()
+{
+}
 

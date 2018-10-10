@@ -12,5 +12,6 @@
         <file>breeze-escriba/16x16/insert-link.svg</file>
         <file>breeze-escriba/16x16/overflow-menu.svg</file>
         <file>breeze-escriba/index.theme</file>
+        <file>breeze-escriba/16x16/insert-image.svg</file>
     </qresource>
 </RCC>

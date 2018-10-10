@@ -26,6 +26,7 @@
 
 #include <QPointer>
 #include "ui_escriba.h"
+#include "markdownsyntax.h"
 
 /**
  * @Brief A simple rich-text editor
@@ -34,6 +35,7 @@ class Escriba : public QWidget, protected Ui::Escriba {
     Q_OBJECT
   public:
     Escriba(QWidget *parent = nullptr);
+    ~Escriba();
 
     QString toPlainText() const { return f_richTextEdit->toPlainText(); }
     QString toHtml() const;
@@ -91,6 +93,9 @@ class Escriba : public QWidget, protected Ui::Escriba {
                           ParagraphMonospace };
 
     QPointer<QTextList> m_lastBlockList;
+
+private:
+    MarkdownSyntax *m_markdownSyntax;
 };
 
 #endif
