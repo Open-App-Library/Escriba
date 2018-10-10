@@ -1,3 +1,9 @@
+/*
+ * Note: This file is mostly the Qt syntax-highlighting example.
+ * It contains C++ syntax-highlighting that will eventually be
+ * removed.
+ */
+
 #ifndef MARKDOWNSYNTAX_H
 #define MARKDOWNSYNTAX_H
 
