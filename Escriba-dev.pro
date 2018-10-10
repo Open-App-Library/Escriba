@@ -5,7 +5,7 @@
 #---------------------------------------------------------#
 
 include(Escriba.pro)
-SOURCES += example.cpp
+SOURCES += src/example.cpp
 
 QT       += core gui widgets
 

@@ -35,18 +35,18 @@ class Escriba : public QWidget, protected Ui::Escriba {
   public:
     Escriba(QWidget *parent = nullptr);
 
-    QString toPlainText() const { return f_textedit->toPlainText(); }
+    QString toPlainText() const { return f_richTextEdit->toPlainText(); }
     QString toHtml() const;
-    QTextDocument *document() { return f_textedit->document(); }
-    QTextCursor    textCursor() const { return f_textedit->textCursor(); }
-    void           setTextCursor(const QTextCursor& cursor) { f_textedit->setTextCursor(cursor); }
+    QTextDocument *document() { return f_richTextEdit->document(); }
+    QTextCursor    textCursor() const { return f_richTextEdit->textCursor(); }
+    void           setTextCursor(const QTextCursor& cursor) { f_richTextEdit->setTextCursor(cursor); }
 
   public slots:
     void setText(const QString &text);
 
   protected slots:
-    void setPlainText(const QString &text) { f_textedit->setPlainText(text); }
-    void setHtml(const QString &text)      { f_textedit->setHtml(text); }
+    void setPlainText(const QString &text) { f_richTextEdit->setPlainText(text); }
+    void setHtml(const QString &text)      { f_richTextEdit->setHtml(text); }
     void textRemoveFormat();
     void textRemoveAllFormat();
     void textBold();

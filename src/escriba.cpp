@@ -41,12 +41,12 @@
 
 Escriba::Escriba(QWidget *parent) : QWidget(parent) {
     setupUi(this);
-    m_lastBlockList = 0;
-    f_textedit->setTabStopWidth(40);
+    m_lastBlockList = nullptr;
+    f_richTextEdit->setTabStopDistance(40);
 
-    connect(f_textedit, SIGNAL(currentCharFormatChanged(QTextCharFormat)),
+    connect(f_richTextEdit, SIGNAL(currentCharFormatChanged(QTextCharFormat)),
             this,     SLOT(slotCurrentCharFormatChanged(QTextCharFormat)));
-    connect(f_textedit, SIGNAL(cursorPositionChanged()),
+    connect(f_richTextEdit, SIGNAL(cursorPositionChanged()),
             this,     SLOT(slotCursorPositionChanged()));
 
     m_fontsize_h1 = 18;
@@ -54,8 +54,8 @@ Escriba::Escriba(QWidget *parent) : QWidget(parent) {
     m_fontsize_h3 = 14;
     m_fontsize_h4 = 12;
 
-    fontChanged(f_textedit->font());
-    bgColorChanged(f_textedit->textColor());
+    fontChanged(f_richTextEdit->font());
+    bgColorChanged(f_richTextEdit->textColor());
 
     // paragraph formatting
 
@@ -75,16 +75,16 @@ Escriba::Escriba(QWidget *parent) : QWidget(parent) {
     f_undo->setShortcut(QKeySequence::Undo);
     f_redo->setShortcut(QKeySequence::Redo);
 
-    connect(f_textedit->document(), SIGNAL(undoAvailable(bool)),
+    connect(f_richTextEdit->document(), SIGNAL(undoAvailable(bool)),
             f_undo, SLOT(setEnabled(bool)));
-    connect(f_textedit->document(), SIGNAL(redoAvailable(bool)),
+    connect(f_richTextEdit->document(), SIGNAL(redoAvailable(bool)),
             f_redo, SLOT(setEnabled(bool)));
 
-    f_undo->setEnabled(f_textedit->document()->isUndoAvailable());
-    f_redo->setEnabled(f_textedit->document()->isRedoAvailable());
+    f_undo->setEnabled(f_richTextEdit->document()->isUndoAvailable());
+    f_redo->setEnabled(f_richTextEdit->document()->isRedoAvailable());
 
-    connect(f_undo, SIGNAL(clicked()), f_textedit, SLOT(undo()));
-    connect(f_redo, SIGNAL(clicked()), f_textedit, SLOT(redo()));
+    connect(f_undo, SIGNAL(clicked()), f_richTextEdit, SLOT(undo()));
+    connect(f_redo, SIGNAL(clicked()), f_richTextEdit, SLOT(redo()));
 
     // cut, copy & paste
 
@@ -95,12 +95,12 @@ Escriba::Escriba(QWidget *parent) : QWidget(parent) {
     //f_cut->setEnabled(false);
     //f_copy->setEnabled(false);
 
-    //connect(f_cut, SIGNAL(clicked()), f_textedit, SLOT(cut()));
-    //connect(f_copy, SIGNAL(clicked()), f_textedit, SLOT(copy()));
-    //connect(f_paste, SIGNAL(clicked()), f_textedit, SLOT(paste()));
+    //connect(f_cut, SIGNAL(clicked()), f_richTextEdit, SLOT(cut()));
+    //connect(f_copy, SIGNAL(clicked()), f_richTextEdit, SLOT(copy()));
+    //connect(f_paste, SIGNAL(clicked()), f_richTextEdit, SLOT(paste()));
 
-    //connect(f_textedit, SIGNAL(copyAvailable(bool)), f_cut, SLOT(setEnabled(bool)));
-    //connect(f_textedit, SIGNAL(copyAvailable(bool)), f_copy, SLOT(setEnabled(bool)));
+    //connect(f_richTextEdit, SIGNAL(copyAvailable(bool)), f_cut, SLOT(setEnabled(bool)));
+    //connect(f_richTextEdit, SIGNAL(copyAvailable(bool)), f_copy, SLOT(setEnabled(bool)));
 
 #ifndef QT_NO_CLIPBOARD
     connect(QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(slotClipboardDataChanged()));
@@ -126,16 +126,16 @@ Escriba::Escriba(QWidget *parent) : QWidget(parent) {
     QAction *removeFormat = new QAction(tr("Remove character formatting"), this);
     removeFormat->setShortcut(QKeySequence("CTRL+M"));
     connect(removeFormat, SIGNAL(triggered()), this, SLOT(textRemoveFormat()));
-    f_textedit->addAction(removeFormat);
+    f_richTextEdit->addAction(removeFormat);
 
     QAction *removeAllFormat = new QAction(tr("Remove all formatting"), this);
     connect(removeAllFormat, SIGNAL(triggered()), this, SLOT(textRemoveAllFormat()));
-    f_textedit->addAction(removeAllFormat);
+    f_richTextEdit->addAction(removeAllFormat);
 
     QAction *textsource = new QAction(tr("Edit document source"), this);
     textsource->setShortcut(QKeySequence("CTRL+O"));
     connect(textsource, SIGNAL(triggered()), this, SLOT(textSource()));
-    f_textedit->addAction(textsource);
+    f_richTextEdit->addAction(textsource);
 
     QMenu *menu = new QMenu(this);
     menu->addAction(removeAllFormat);
@@ -194,7 +194,7 @@ Escriba::Escriba(QWidget *parent) : QWidget(parent) {
 void Escriba::textSource() {
     QDialog *dialog = new QDialog(this);
     QPlainTextEdit *pte = new QPlainTextEdit(dialog);
-    pte->setPlainText( f_textedit->toHtml() );
+    pte->setPlainText( f_richTextEdit->toHtml() );
     QGridLayout *gl = new QGridLayout(dialog);
     gl->addWidget(pte,0,0,1,1);
     dialog->setWindowTitle(tr("Document source"));
@@ -202,7 +202,7 @@ void Escriba::textSource() {
     dialog->setMinimumHeight(600);
     dialog->exec();
 
-    f_textedit->setHtml(pte->toPlainText());
+    f_richTextEdit->setHtml(pte->toPlainText());
 
     delete dialog;
 }
@@ -240,8 +240,8 @@ void Escriba::textRemoveAllFormat() {
     f_italic    ->setChecked(false);
     f_strikeout ->setChecked(false);
 //    f_fontsize  ->setCurrentIndex(f_fontsize->findText("9"));
-    QString text = f_textedit->toPlainText();
-    f_textedit->setPlainText(text);
+    QString text = f_richTextEdit->toPlainText();
+    f_richTextEdit->setPlainText(text);
 }
 
 
@@ -253,7 +253,7 @@ void Escriba::textBold() {
 
 
 void Escriba::focusInEvent(QFocusEvent *) {
-    f_textedit->setFocus(Qt::TabFocusReason);
+    f_richTextEdit->setFocus(Qt::TabFocusReason);
 }
 
 
@@ -276,7 +276,7 @@ void Escriba::textStrikeout() {
 }
 
 void Escriba::textSize(const QString &p) {
-    qreal pointSize = p.toFloat();
+    qreal pointSize = p.toDouble();
     if (p.toFloat() > 0) {
         QTextCharFormat fmt;
         fmt.setFontPointSize(pointSize);
@@ -288,7 +288,7 @@ void Escriba::textLink(bool checked) {
     bool unlink = false;
     QTextCharFormat fmt;
     if (checked) {
-        QString url = f_textedit->currentCharFormat().anchorHref();
+        QString url = f_richTextEdit->currentCharFormat().anchorHref();
         bool ok;
         QString newUrl = QInputDialog::getText(this, tr("Create a link"),
                                         tr("Link URL:"), QLineEdit::Normal,
@@ -314,7 +314,7 @@ void Escriba::textLink(bool checked) {
 }
 
 void Escriba::textStyle(int index) {
-    QTextCursor cursor = f_textedit->textCursor();
+    QTextCursor cursor = f_richTextEdit->textCursor();
     cursor.beginEditBlock();
 
     // standard
@@ -323,7 +323,7 @@ void Escriba::textStyle(int index) {
         }
     QTextCharFormat fmt;
     cursor.setCharFormat(fmt);
-    f_textedit->setCurrentCharFormat(fmt);
+    f_richTextEdit->setCurrentCharFormat(fmt);
 
     if (index == ParagraphHeading1
             || index == ParagraphHeading2
@@ -354,14 +354,14 @@ void Escriba::textStyle(int index) {
         fmt.setFontFixedPitch(true);
         }
     cursor.setCharFormat(fmt);
-    f_textedit->setCurrentCharFormat(fmt);
+    f_richTextEdit->setCurrentCharFormat(fmt);
 
     cursor.endEditBlock();
 }
 
 void Escriba::textFgColor() {
-    QColor col = QColorDialog::getColor(f_textedit->textColor(), this);
-    QTextCursor cursor = f_textedit->textCursor();
+    QColor col = QColorDialog::getColor(f_richTextEdit->textColor(), this);
+    QTextCursor cursor = f_richTextEdit->textCursor();
     if (!cursor.hasSelection()) {
         cursor.select(QTextCursor::WordUnderCursor);
         }
@@ -372,13 +372,13 @@ void Escriba::textFgColor() {
         fmt.clearForeground();
         }
     cursor.setCharFormat(fmt);
-    f_textedit->setCurrentCharFormat(fmt);
+    f_richTextEdit->setCurrentCharFormat(fmt);
     fgColorChanged(col);
 }
 
 void Escriba::textBgColor() {
-    QColor col = QColorDialog::getColor(f_textedit->textBackgroundColor(), this);
-    QTextCursor cursor = f_textedit->textCursor();
+    QColor col = QColorDialog::getColor(f_richTextEdit->textBackgroundColor(), this);
+    QTextCursor cursor = f_richTextEdit->textCursor();
     if (!cursor.hasSelection()) {
         cursor.select(QTextCursor::WordUnderCursor);
         }
@@ -389,7 +389,7 @@ void Escriba::textBgColor() {
         fmt.clearBackground();
         }
     cursor.setCharFormat(fmt);
-    f_textedit->setCurrentCharFormat(fmt);
+    f_richTextEdit->setCurrentCharFormat(fmt);
     bgColorChanged(col);
 }
 
@@ -408,7 +408,7 @@ void Escriba::listOrdered(bool checked) {
 }
 
 void Escriba::list(bool checked, QTextListFormat::Style style) {
-    QTextCursor cursor = f_textedit->textCursor();
+    QTextCursor cursor = f_richTextEdit->textCursor();
     cursor.beginEditBlock();
     if (!checked) {
         QTextBlockFormat obfmt = cursor.blockFormat();
@@ -427,18 +427,18 @@ void Escriba::list(bool checked, QTextListFormat::Style style) {
 }
 
 void Escriba::mergeFormatOnWordOrSelection(const QTextCharFormat &format) {
-    QTextCursor cursor = f_textedit->textCursor();
+    QTextCursor cursor = f_richTextEdit->textCursor();
     if (!cursor.hasSelection()) {
         cursor.select(QTextCursor::WordUnderCursor);
         }
     cursor.mergeCharFormat(format);
-    f_textedit->mergeCurrentCharFormat(format);
-    f_textedit->setFocus(Qt::TabFocusReason);
+    f_richTextEdit->mergeCurrentCharFormat(format);
+    f_richTextEdit->setFocus(Qt::TabFocusReason);
 }
 
 void Escriba::slotCursorPositionChanged() {
-    QTextList *l = f_textedit->textCursor().currentList();
-    if (m_lastBlockList && (l == m_lastBlockList || (l != 0 && m_lastBlockList != 0
+    QTextList *l = f_richTextEdit->textCursor().currentList();
+    if (m_lastBlockList && (l == m_lastBlockList || (l != nullptr && m_lastBlockList != nullptr
                                  && l->format().style() == m_lastBlockList->format().style()))) {
         return;
         }
@@ -482,8 +482,8 @@ void Escriba::fontChanged(const QFont &f) {
             f_paragraph->setCurrentIndex(ParagraphStandard);
             }
         }
-    if (f_textedit->textCursor().currentList()) {
-        QTextListFormat lfmt = f_textedit->textCursor().currentList()->format();
+    if (f_richTextEdit->textCursor().currentList()) {
+        QTextListFormat lfmt = f_richTextEdit->textCursor().currentList()->format();
         if (lfmt.style() == QTextListFormat::ListDisc) {
             f_list_bullet->setChecked(true);
             f_list_ordered->setChecked(false);
@@ -535,7 +535,7 @@ void Escriba::slotClipboardDataChanged() {
 }
 
 QString Escriba::toHtml() const {
-    QString s = f_textedit->toHtml();
+    QString s = f_richTextEdit->toHtml();
     // convert emails to links
     s = s.replace(QRegExp("(<[^a][^>]+>(?:<span[^>]+>)?|\\s)([a-zA-Z\\d]+@[a-zA-Z\\d]+\\.[a-zA-Z]+)"), "\\1<a href=\"mailto:\\2\">\\2</a>");
     // convert links
@@ -553,7 +553,7 @@ void Escriba::decreaseIndentation() {
 }
 
 void Escriba::indent(int delta) {
-    QTextCursor cursor = f_textedit->textCursor();
+    QTextCursor cursor = f_richTextEdit->textCursor();
     cursor.beginEditBlock();
     QTextBlockFormat bfmt = cursor.blockFormat();
     int ind = bfmt.indent();
@@ -585,7 +585,7 @@ void Escriba::insertImage() {
                                     tr("JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)"));
     QImage image = QImageReader(file).read();
 
-    f_textedit->dropImage(image, QFileInfo(file).suffix().toUpper().toLocal8Bit().data() );
+    f_richTextEdit->dropImage(image, QFileInfo(file).suffix().toUpper().toLocal8Bit().data() );
 
 }
 
