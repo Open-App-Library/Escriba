@@ -10,16 +10,20 @@ MarkdownSyntax::MarkdownSyntax(QTextDocument *parent)
 
     for (int i = 0; i < 6; i++) {
 
-        QString headingStr = "h"+QString::number(i+1);
+        QString headingStr = "#";
+        for (int j = 0; j < i; j++) {
+            headingStr+="#";
+        }
+        qDebug() << headingStr;
         Headings[i].setFontWeight(QFont::Bold);
         Headings[i].setFontPointSize(30 - (i * 6));
-        rule.pattern = keyword(headingStr+" .*");
+        rule.pattern = QRegularExpression(headingStr+" .*");
         rule.format = Headings[i];
         highlightingRules.append(rule);
 
         Headings[i].setFontWeight(QFont::Bold);
         Headings[i].setFontPointSize(10);
-        rule.pattern = keyword(headingStr);
+        rule.pattern = QRegularExpression(headingStr);
         rule.format = Headings[i];
         highlightingRules.append(rule);
 
