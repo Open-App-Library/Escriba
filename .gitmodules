@@ -1,0 +1,3 @@
+[submodule "markdownpanda"]
+	path = markdownpanda
+	url = git@gitlab.com:Open-App-Library/markdownpanda.git

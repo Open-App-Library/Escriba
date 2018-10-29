@@ -1,7 +1,5 @@
 #include "markdownsyntax.h"
 
-#include <QDebug>
-
 //! [0]
 MarkdownSyntax::MarkdownSyntax(QTextDocument *parent)
     : QSyntaxHighlighter(parent)
@@ -9,12 +7,10 @@ MarkdownSyntax::MarkdownSyntax(QTextDocument *parent)
     HighlightingRule rule;
 
     for (int i = 0; i < 6; i++) {
-
         QString headingStr = "#";
         for (int j = 0; j < i; j++) {
             headingStr+="#";
         }
-        qDebug() << headingStr;
         Headings[i].setFontWeight(QFont::Bold);
         Headings[i].setFontPointSize(30 - (i * 6));
         rule.pattern = QRegularExpression(headingStr+" .*");

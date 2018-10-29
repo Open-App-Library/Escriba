@@ -9,8 +9,10 @@ SOURCES += \
     $$PWD/src/markdownsyntax.cpp \
     $$PWD/src/edocument.cpp
 
-
 FORMS += $$PWD/escriba.ui
+
+LIBS += -L$$PWD/markdownpanda/build/lib -lmarkdownpanda_static -lmyhtml_static -lcmark-gfm-extensions -lcmark-gfm
 
 DEPENDPATH += $$PWD/src
 INCLUDEPATH += $$PWD/src
+INCLUDEPATH += $$PWD/markdownpanda/build/include
