@@ -27,6 +27,9 @@
 #include <QPointer>
 #include "ui_escriba.h"
 #include "markdownsyntax.h"
+#include <escribahelper.h>
+
+class MarkdownPandaQt;
 
 /**
  * @Brief A simple rich-text editor
@@ -69,6 +72,7 @@ class Escriba : public QWidget, protected Ui::Escriba {
     void decreaseIndentation();
     void insertImage();
     void textSource();
+    void switchedEditorType(int index); // User has clicked the "Fancy" or "Markdown" tab
 
   protected:
     void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
@@ -96,6 +100,7 @@ class Escriba : public QWidget, protected Ui::Escriba {
 
 private:
     MarkdownSyntax *m_markdownSyntax;
+    MarkdownPandaQt *m_mdpanda;
 };
 
 #endif

@@ -2,12 +2,13 @@ HEADERS += \
     $$PWD/src/escriba.h \
     $$PWD/src/escriba-textedit.h \
     $$PWD/src/markdownsyntax.h \
-    $$PWD/src/edocument.h
+    src/escribahelper.h
+
 SOURCES += \
     $$PWD/src/escriba.cpp \
     $$PWD/src/escriba-textedit.cpp \
     $$PWD/src/markdownsyntax.cpp \
-    $$PWD/src/edocument.cpp
+    src/escribahelper.cpp
 
 FORMS += $$PWD/escriba.ui
 

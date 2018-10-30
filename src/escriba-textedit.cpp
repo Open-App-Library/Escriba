@@ -6,7 +6,6 @@
 #include <QBuffer>
 #include <stdlib.h>
 
-
 Escriba_TextEdit::Escriba_TextEdit(QWidget *parent) : QTextEdit(parent) {
 }
 
@@ -73,4 +72,3 @@ void Escriba_TextEdit::dropImage(const QImage& image, const QString& format) {
                                 );
     cursor.insertImage    ( imageFormat );
 }
-

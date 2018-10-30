@@ -38,8 +38,13 @@
 #include <QPlainTextEdit>
 #include <QMenu>
 #include <QDialog>
+#include <QTextDocumentFragment>
+#include <markdownpanda/qt.hpp>
 
-Escriba::Escriba(QWidget *parent) : QWidget(parent) {
+Escriba::Escriba(QWidget *parent) :
+    QWidget(parent),
+    m_mdpanda(new MarkdownPandaQt())
+{
     setupUi(this);
     m_lastBlockList = nullptr;
 
@@ -104,6 +109,9 @@ Escriba::Escriba(QWidget *parent) : QWidget(parent) {
 
     //connect(f_richTextEdit, SIGNAL(copyAvailable(bool)), f_cut, SLOT(setEnabled(bool)));
     //connect(f_richTextEdit, SIGNAL(copyAvailable(bool)), f_copy, SLOT(setEnabled(bool)));
+
+    connect(f_editorTypeTab, SIGNAL(currentChanged(int)),
+            this, SLOT(switchedEditorType(int)));
 
 #ifndef QT_NO_CLIPBOARD
     connect(QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(slotClipboardDataChanged()));
@@ -326,6 +334,9 @@ void Escriba::textStyle(int index) {
         }
     QTextCharFormat fmt;
     cursor.setCharFormat(fmt);
+    QString htmlRaw = cursor.selection().toHtml(nullptr);
+    QString html = EscribaHelper::getInnerHtml( htmlRaw );
+    qDebug() << html;
     f_richTextEdit->setCurrentCharFormat(fmt);
 
     if (index == ParagraphHeading1
@@ -437,6 +448,19 @@ void Escriba::mergeFormatOnWordOrSelection(const QTextCharFormat &format) {
     cursor.mergeCharFormat(format);
     f_richTextEdit->mergeCurrentCharFormat(format);
     f_richTextEdit->setFocus(Qt::TabFocusReason);
+}
+
+void Escriba::switchedEditorType(int index)
+{
+    if (index) { // index == 1. This means user clicked Markdown tab
+        // Ok, we must convert HTML (rich-text) to Markdown
+        m_mdpanda->loadHtmlString( f_richTextEdit->toHtml() );
+        f_plainTextEdit->document()->setPlainText( m_mdpanda->markdown() );
+    } else { // index == 0. This means user clicked Fancy tab
+        // Ok, we must convert Markdown (rich-text) to HTML
+        m_mdpanda->loadMarkdownString( f_plainTextEdit->toPlainText() );
+        f_richTextEdit->setText( m_mdpanda->html() );
+    }
 }
 
 void Escriba::slotCursorPositionChanged() {
@@ -594,5 +618,6 @@ void Escriba::insertImage() {
 
 Escriba::~Escriba()
 {
+    delete m_mdpanda;
 }
 

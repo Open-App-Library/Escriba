@@ -340,12 +340,12 @@
     </widget>
    </item>
    <item>
-    <widget class="QTabWidget" name="f_tab">
+    <widget class="QTabWidget" name="f_editorTypeTab">
      <property name="tabPosition">
       <enum>QTabWidget::South</enum>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <property name="elideMode">
       <enum>Qt::ElideRight</enum>
