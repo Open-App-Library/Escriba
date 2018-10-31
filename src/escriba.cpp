@@ -40,6 +40,7 @@
 #include <QDialog>
 #include <QTextDocumentFragment>
 #include <markdownpanda/qt.hpp>
+#include <qbasichtmlexporter.h>
 
 Escriba::Escriba(QWidget *parent) :
     QWidget(parent),
@@ -205,7 +206,7 @@ Escriba::Escriba(QWidget *parent) :
 void Escriba::textSource() {
     QDialog *dialog = new QDialog(this);
     QPlainTextEdit *pte = new QPlainTextEdit(dialog);
-    pte->setPlainText( f_richTextEdit->toHtml() );
+    pte->setPlainText( QBasicHtmlExporter(f_richTextEdit->document()).toHtml() );
     QGridLayout *gl = new QGridLayout(dialog);
     gl->addWidget(pte,0,0,1,1);
     dialog->setWindowTitle(tr("Document source"));
@@ -326,6 +327,7 @@ void Escriba::textLink(bool checked) {
 
 void Escriba::textStyle(int index) {
     QTextCursor cursor = f_richTextEdit->textCursor();
+    QTextBlockFormat blockFormat = cursor.blockFormat();
     cursor.beginEditBlock();
 
     // standard
@@ -334,32 +336,31 @@ void Escriba::textStyle(int index) {
         }
     QTextCharFormat fmt;
     cursor.setCharFormat(fmt);
-    QString htmlRaw = cursor.selection().toHtml(nullptr);
-    QString html = EscribaHelper::getInnerHtml( htmlRaw );
-    qDebug() << html;
+
     f_richTextEdit->setCurrentCharFormat(fmt);
 
-    if (index == ParagraphHeading1
+    if (       index == ParagraphHeading1
             || index == ParagraphHeading2
             || index == ParagraphHeading3
             || index == ParagraphHeading4 ) {
         if (index == ParagraphHeading1) {
-            fmt.setFontPointSize(m_fontsize_h1);
+            //fmt.setFontPointSize(m_fontsize_h1);
+            fmt.setProperty(QTextFormat::FontSizeAdjustment, 4);
             }
         if (index == ParagraphHeading2) {
-            fmt.setFontPointSize(m_fontsize_h2);
+            fmt.setProperty(QTextFormat::FontSizeAdjustment, 3);
             }
         if (index == ParagraphHeading3) {
-            fmt.setFontPointSize(m_fontsize_h3);
+            fmt.setProperty(QTextFormat::FontSizeAdjustment, 2);
             }
         if (index == ParagraphHeading4) {
-            fmt.setFontPointSize(m_fontsize_h4);
+            fmt.setProperty(QTextFormat::FontSizeAdjustment, 2);
             }
         if (index == ParagraphHeading2 || index == ParagraphHeading4) {
-            fmt.setFontItalic(true);
+            fmt.setProperty(QTextFormat::FontSizeAdjustment, 1);
             }
 
-        fmt.setFontWeight(QFont::Bold);
+        //fmt.setFontWeight(QFont::Bold);
         }
     if (index == ParagraphMonospace) {
         fmt = cursor.charFormat();
@@ -454,7 +455,9 @@ void Escriba::switchedEditorType(int index)
 {
     if (index) { // index == 1. This means user clicked Markdown tab
         // Ok, we must convert HTML (rich-text) to Markdown
-        m_mdpanda->loadHtmlString( f_richTextEdit->toHtml() );
+        QString html = QBasicHtmlExporter(f_richTextEdit->document()).toHtml();
+        qDebug() << "html" << html;
+        m_mdpanda->loadHtmlString( html );
         f_plainTextEdit->document()->setPlainText( m_mdpanda->markdown() );
     } else { // index == 0. This means user clicked Fancy tab
         // Ok, we must convert Markdown (rich-text) to HTML

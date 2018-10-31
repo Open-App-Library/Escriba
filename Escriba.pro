@@ -17,3 +17,7 @@ LIBS += -L$$PWD/markdownpanda/build/lib -lmarkdownpanda_static -lmyhtml_static -
 DEPENDPATH += $$PWD/src
 INCLUDEPATH += $$PWD/src
 INCLUDEPATH += $$PWD/markdownpanda/build/include
+
+# QBasicHtmlExporter
+include($$PWD/QBasicHtmlExporter/QBasicHtmlExporter.pro)
+INCLUDEPATH += $$PWD/QBasicHtmlExporter
