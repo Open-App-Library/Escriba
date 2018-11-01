@@ -101,6 +101,7 @@ class Escriba : public QWidget, protected Ui::Escriba {
 private:
     MarkdownSyntax *m_markdownSyntax;
     MarkdownPandaQt *m_mdpanda;
+    QTextCharFormat m_curlineformat;
 };
 
 #endif

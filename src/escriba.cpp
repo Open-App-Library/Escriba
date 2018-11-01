@@ -166,37 +166,37 @@ Escriba::Escriba(QWidget *parent) :
 
     // indentation
 
-//    f_indent_dec->setShortcut(Qt::CTRL + Qt::Key_Comma);
-//    f_indent_inc->setShortcut(Qt::CTRL + Qt::Key_Period);
+    //    f_indent_dec->setShortcut(Qt::CTRL + Qt::Key_Comma);
+    //    f_indent_inc->setShortcut(Qt::CTRL + Qt::Key_Period);
 
-//    connect(f_indent_inc, SIGNAL(clicked()), this, SLOT(increaseIndentation()));
-//    connect(f_indent_dec, SIGNAL(clicked()), this, SLOT(decreaseIndentation()));
+    //    connect(f_indent_inc, SIGNAL(clicked()), this, SLOT(increaseIndentation()));
+    //    connect(f_indent_dec, SIGNAL(clicked()), this, SLOT(decreaseIndentation()));
 
     // font size
 
     QFontDatabase db;
-//    foreach(int size, db.standardSizes())
-//        f_fontsize->addItem(QString::number(size));
+    //    foreach(int size, db.standardSizes())
+    //        f_fontsize->addItem(QString::number(size));
 
-//    connect(f_fontsize, SIGNAL(activated(QString)),
-//            this, SLOT(textSize(QString)));
-//    f_fontsize->setCurrentIndex(f_fontsize->findText(QString::number(QApplication::font()
-//                                                                   .pointSize())));
+    //    connect(f_fontsize, SIGNAL(activated(QString)),
+    //            this, SLOT(textSize(QString)));
+    //    f_fontsize->setCurrentIndex(f_fontsize->findText(QString::number(QApplication::font()
+    //                                                                   .pointSize())));
 
     // text foreground color
 
     QPixmap pix(16, 16);
     pix.fill(QApplication::palette().foreground().color());
-//    f_fgcolor->setIcon(pix);
+    //    f_fgcolor->setIcon(pix);
 
-//    connect(f_fgcolor, SIGNAL(clicked()), this, SLOT(textFgColor()));
+    //    connect(f_fgcolor, SIGNAL(clicked()), this, SLOT(textFgColor()));
 
     // text background color
 
     pix.fill(QApplication::palette().background().color());
-//    f_bgcolor->setIcon(pix);
+    //    f_bgcolor->setIcon(pix);
 
-//    connect(f_bgcolor, SIGNAL(clicked()), this, SLOT(textBgColor()));
+    //    connect(f_bgcolor, SIGNAL(clicked()), this, SLOT(textBgColor()));
 
     // images
     connect(f_image, SIGNAL(clicked()), this, SLOT(insertImage()));
@@ -227,18 +227,18 @@ void Escriba::textRemoveFormat() {
     fmt.setFontStrikeOut  (false);
     fmt.setFontItalic     (false);
     fmt.setFontPointSize  (9);
-//  fmt.setFontFamily     ("Helvetica");
-//  fmt.setFontStyleHint  (QFont::SansSerif);
-//  fmt.setFontFixedPitch (true);
+    //  fmt.setFontFamily     ("Helvetica");
+    //  fmt.setFontStyleHint  (QFont::SansSerif);
+    //  fmt.setFontFixedPitch (true);
 
     f_bold      ->setChecked(false);
     f_underline ->setChecked(false);
     f_italic    ->setChecked(false);
     f_strikeout ->setChecked(false);
-//    f_fontsize  ->setCurrentIndex(f_fontsize->findText("9"));
+    //    f_fontsize  ->setCurrentIndex(f_fontsize->findText("9"));
 
-//  QTextBlockFormat bfmt = cursor.blockFormat();
-//  bfmt->setIndent(0);
+    //  QTextBlockFormat bfmt = cursor.blockFormat();
+    //  bfmt->setIndent(0);
 
     fmt.clearBackground();
 
@@ -251,7 +251,7 @@ void Escriba::textRemoveAllFormat() {
     f_underline ->setChecked(false);
     f_italic    ->setChecked(false);
     f_strikeout ->setChecked(false);
-//    f_fontsize  ->setCurrentIndex(f_fontsize->findText("9"));
+    //    f_fontsize  ->setCurrentIndex(f_fontsize->findText("9"));
     QString text = f_richTextEdit->toPlainText();
     f_richTextEdit->setPlainText(text);
 }
@@ -303,25 +303,25 @@ void Escriba::textLink(bool checked) {
         QString url = f_richTextEdit->currentCharFormat().anchorHref();
         bool ok;
         QString newUrl = QInputDialog::getText(this, tr("Create a link"),
-                                        tr("Link URL:"), QLineEdit::Normal,
-                                        url,
-                                        &ok);
+                                               tr("Link URL:"), QLineEdit::Normal,
+                                               url,
+                                               &ok);
         if (ok) {
             fmt.setAnchor(true);
             fmt.setAnchorHref(newUrl);
             fmt.setForeground(QApplication::palette().color(QPalette::Link));
             fmt.setFontUnderline(true);
-          } else {
+        } else {
             unlink = true;
-            }
-      } else {
-        unlink = true;
         }
+    } else {
+        unlink = true;
+    }
     if (unlink) {
         fmt.setAnchor(false);
         fmt.setForeground(QApplication::palette().color(QPalette::Text));
         fmt.setFontUnderline(false);
-        }
+    }
     mergeFormatOnWordOrSelection(fmt);
 }
 
@@ -333,44 +333,55 @@ void Escriba::textStyle(int index) {
     // standard
     if (!cursor.hasSelection()) {
         cursor.select(QTextCursor::BlockUnderCursor);
-        }
+    }
     QTextCharFormat fmt;
     cursor.setCharFormat(fmt);
 
     f_richTextEdit->setCurrentCharFormat(fmt);
 
-    if (       index == ParagraphHeading1
-            || index == ParagraphHeading2
-            || index == ParagraphHeading3
-            || index == ParagraphHeading4 ) {
-        if (index == ParagraphHeading1) {
-            //fmt.setFontPointSize(m_fontsize_h1);
-            fmt.setProperty(QTextFormat::FontSizeAdjustment, 4);
-            }
-        if (index == ParagraphHeading2) {
-            fmt.setProperty(QTextFormat::FontSizeAdjustment, 3);
-            }
-        if (index == ParagraphHeading3) {
-            fmt.setProperty(QTextFormat::FontSizeAdjustment, 2);
-            }
-        if (index == ParagraphHeading4) {
-            fmt.setProperty(QTextFormat::FontSizeAdjustment, 2);
-            }
-        if (index == ParagraphHeading2 || index == ParagraphHeading4) {
-            fmt.setProperty(QTextFormat::FontSizeAdjustment, 1);
-            }
+    if ( index == ParagraphHeading1 ||
+         index == ParagraphHeading2 ||
+         index == ParagraphHeading3 ||
+         index == ParagraphHeading4 )
+    {
+        int heading_property = -255; // Arbitrary number that should never come up
+        switch (index) {
+        case ParagraphHeading1:
+            heading_property = 3;
+            break;
+        case ParagraphHeading2:
+            heading_property = 2;
+            break;
+        case ParagraphHeading3:
+            heading_property = 1;
+            break;
+        case ParagraphHeading4:
+            heading_property = 0;
+            break;
+            //        // ParagraphHeading5 does not exit (yet)
+            //        case ParagraphHeading5:
+            //            heading_property = -1;
+            //            break;
+        case ParagraphMonospace:
+        {
+            fmt = cursor.charFormat();
+            fmt.setFontFamily("Monospace");
+            fmt.setFontStyleHint(QFont::Monospace);
+            fmt.setFontFixedPitch(true);
+            break;
+        }
+        }
+        if (heading_property != -255) {
+            fmt.setProperty(QTextFormat::FontSizeAdjustment, int(heading_property));
+            QString c = QString("fmt.setProperty(QTextFormat::FontSizeAdjustment, int(%1));").arg(heading_property);
+        }
+    }
 
-        //fmt.setFontWeight(QFont::Bold);
-        }
-    if (index == ParagraphMonospace) {
-        fmt = cursor.charFormat();
-        fmt.setFontFamily("Monospace");
-        fmt.setFontStyleHint(QFont::Monospace);
-        fmt.setFontFixedPitch(true);
-        }
+    // Wrap things up
     cursor.setCharFormat(fmt);
+    m_curlineformat = fmt;
+    cursor.setBlockCharFormat(fmt);
     f_richTextEdit->setCurrentCharFormat(fmt);
-
     cursor.endEditBlock();
 }
 
@@ -379,13 +390,13 @@ void Escriba::textFgColor() {
     QTextCursor cursor = f_richTextEdit->textCursor();
     if (!cursor.hasSelection()) {
         cursor.select(QTextCursor::WordUnderCursor);
-        }
+    }
     QTextCharFormat fmt = cursor.charFormat();
     if (col.isValid()) {
         fmt.setForeground(col);
-      } else {
+    } else {
         fmt.clearForeground();
-        }
+    }
     cursor.setCharFormat(fmt);
     f_richTextEdit->setCurrentCharFormat(fmt);
     fgColorChanged(col);
@@ -396,13 +407,13 @@ void Escriba::textBgColor() {
     QTextCursor cursor = f_richTextEdit->textCursor();
     if (!cursor.hasSelection()) {
         cursor.select(QTextCursor::WordUnderCursor);
-        }
+    }
     QTextCharFormat fmt = cursor.charFormat();
     if (col.isValid()) {
         fmt.setBackground(col);
-      } else {
+    } else {
         fmt.clearBackground();
-        }
+    }
     cursor.setCharFormat(fmt);
     f_richTextEdit->setCurrentCharFormat(fmt);
     bgColorChanged(col);
@@ -411,14 +422,14 @@ void Escriba::textBgColor() {
 void Escriba::listBullet(bool checked) {
     if (checked) {
         f_list_ordered->setChecked(false);
-        }
+    }
     list(checked, QTextListFormat::ListDisc);
 }
 
 void Escriba::listOrdered(bool checked) {
     if (checked) {
         f_list_bullet->setChecked(false);
-        }
+    }
     list(checked, QTextListFormat::ListDecimal);
 }
 
@@ -430,14 +441,14 @@ void Escriba::list(bool checked, QTextListFormat::Style style) {
         QTextBlockFormat bfmt;
         bfmt.setIndent(obfmt.indent());
         cursor.setBlockFormat(bfmt);
-      } else {
+    } else {
         QTextListFormat listFmt;
         if (cursor.currentList()) {
             listFmt = cursor.currentList()->format();
-            }
+        }
         listFmt.setStyle(style);
         cursor.createList(listFmt);
-        }
+    }
     cursor.endEditBlock();
 }
 
@@ -445,7 +456,7 @@ void Escriba::mergeFormatOnWordOrSelection(const QTextCharFormat &format) {
     QTextCursor cursor = f_richTextEdit->textCursor();
     if (!cursor.hasSelection()) {
         cursor.select(QTextCursor::WordUnderCursor);
-        }
+    }
     cursor.mergeCharFormat(format);
     f_richTextEdit->mergeCurrentCharFormat(format);
     f_richTextEdit->setFocus(Qt::TabFocusReason);
@@ -456,7 +467,6 @@ void Escriba::switchedEditorType(int index)
     if (index) { // index == 1. This means user clicked Markdown tab
         // Ok, we must convert HTML (rich-text) to Markdown
         QString html = QBasicHtmlExporter(f_richTextEdit->document()).toHtml();
-        qDebug() << "html" << html;
         m_mdpanda->loadHtmlString( html );
         f_plainTextEdit->document()->setPlainText( m_mdpanda->markdown() );
     } else { // index == 0. This means user clicked Fancy tab
@@ -469,26 +479,26 @@ void Escriba::switchedEditorType(int index)
 void Escriba::slotCursorPositionChanged() {
     QTextList *l = f_richTextEdit->textCursor().currentList();
     if (m_lastBlockList && (l == m_lastBlockList || (l != nullptr && m_lastBlockList != nullptr
-                                 && l->format().style() == m_lastBlockList->format().style()))) {
+                                                     && l->format().style() == m_lastBlockList->format().style()))) {
         return;
-        }
+    }
     m_lastBlockList = l;
     if (l) {
         QTextListFormat lfmt = l->format();
         if (lfmt.style() == QTextListFormat::ListDisc) {
             f_list_bullet->setChecked(true);
             f_list_ordered->setChecked(false);
-          } else if (lfmt.style() == QTextListFormat::ListDecimal) {
+        } else if (lfmt.style() == QTextListFormat::ListDecimal) {
             f_list_bullet->setChecked(false);
             f_list_ordered->setChecked(true);
-          } else {
+        } else {
             f_list_bullet->setChecked(false);
             f_list_ordered->setChecked(false);
-            }
-      } else {
+        }
+    } else {
         f_list_bullet->setChecked(false);
         f_list_ordered->setChecked(false);
-        }
+    }
 }
 
 void Escriba::fontChanged(const QFont &f) {
@@ -497,57 +507,86 @@ void Escriba::fontChanged(const QFont &f) {
     f_italic->setChecked(f.italic());
     f_underline->setChecked(f.underline());
     f_strikeout->setChecked(f.strikeOut());
-    if (f.pointSize() == m_fontsize_h1) {
-        f_paragraph->setCurrentIndex(ParagraphHeading1);
-      } else if (f.pointSize() == m_fontsize_h2) {
-        f_paragraph->setCurrentIndex(ParagraphHeading2);
-      } else if (f.pointSize() == m_fontsize_h3) {
-        f_paragraph->setCurrentIndex(ParagraphHeading3);
-      } else if (f.pointSize() == m_fontsize_h4) {
-        f_paragraph->setCurrentIndex(ParagraphHeading4);
-      } else {
-        if (f.fixedPitch() && f.family() == "Monospace") {
-            f_paragraph->setCurrentIndex(ParagraphMonospace);
-          } else {
-            f_paragraph->setCurrentIndex(ParagraphStandard);
+
+    if ( m_curlineformat.hasProperty( QTextFormat::FontSizeAdjustment ) )
+    {
+        switch ( m_curlineformat.intProperty(QTextFormat::FontSizeAdjustment) ) {
+        case 3:
+            f_paragraph->setCurrentIndex(ParagraphHeading1);
+            break;
+        case 2:
+            f_paragraph->setCurrentIndex(ParagraphHeading2);
+            break;
+        case 1:
+            f_paragraph->setCurrentIndex(ParagraphHeading3);
+            break;
+        case 0:
+            f_paragraph->setCurrentIndex(ParagraphHeading4);
+            break;
+        //        case -1:
+        //            f_paragraph->setCurrentIndex(ParagraphHeading5);
+        //            break;
+        default:
+            if (f.fixedPitch() && f.family() == "Monospace") {
+                f_paragraph->setCurrentIndex(ParagraphMonospace);
+            } else {
+                f_paragraph->setCurrentIndex(ParagraphStandard);
             }
+            break;
         }
+    }
+
+//    if (f.pointSize() == m_fontsize_h1) {
+//        f_paragraph->setCurrentIndex(ParagraphHeading1);
+//    } else if (f.pointSize() == m_fontsize_h2) {
+//        f_paragraph->setCurrentIndex(ParagraphHeading2);
+//    } else if (f.pointSize() == m_fontsize_h3) {
+//        f_paragraph->setCurrentIndex(ParagraphHeading3);
+//    } else if (f.pointSize() == m_fontsize_h4) {
+//        f_paragraph->setCurrentIndex(ParagraphHeading4);
+//    } else {
+//        if (f.fixedPitch() && f.family() == "Monospace") {
+//            f_paragraph->setCurrentIndex(ParagraphMonospace);
+//        } else {
+//            f_paragraph->setCurrentIndex(ParagraphStandard);
+//        }
+//    }
     if (f_richTextEdit->textCursor().currentList()) {
         QTextListFormat lfmt = f_richTextEdit->textCursor().currentList()->format();
         if (lfmt.style() == QTextListFormat::ListDisc) {
             f_list_bullet->setChecked(true);
             f_list_ordered->setChecked(false);
-          } else if (lfmt.style() == QTextListFormat::ListDecimal) {
+        } else if (lfmt.style() == QTextListFormat::ListDecimal) {
             f_list_bullet->setChecked(false);
             f_list_ordered->setChecked(true);
-          } else {
+        } else {
             f_list_bullet->setChecked(false);
             f_list_ordered->setChecked(false);
-            }
-      } else {
+        }
+    } else {
         f_list_bullet->setChecked(false);
         f_list_ordered->setChecked(false);
-      }
+    }
 }
 
 void Escriba::fgColorChanged(const QColor &c) {
     QPixmap pix(16, 16);
     if (c.isValid()) {
         pix.fill(c);
-      } else {
+    } else {
         pix.fill(QApplication::palette().foreground().color());
-        }
-//    f_fgcolor->setIcon(pix);
+    }
+    //    f_fgcolor->setIcon(pix);
 }
 
 void Escriba::bgColorChanged(const QColor &c) {
     QPixmap pix(16, 16);
     if (c.isValid()) {
         pix.fill(c);
-      } else {
+    } else {
         pix.fill(QApplication::palette().background().color());
-        }
-//    f_bgcolor->setIcon(pix);
+    }
+    //    f_bgcolor->setIcon(pix);
 }
 
 void Escriba::slotCurrentCharFormatChanged(const QTextCharFormat &format) {
@@ -559,8 +598,8 @@ void Escriba::slotCurrentCharFormatChanged(const QTextCharFormat &format) {
 
 void Escriba::slotClipboardDataChanged() {
 #ifndef QT_NO_CLIPBOARD
-//    if (const QMimeData *md = QApplication::clipboard()->mimeData())
-//        f_paste->setEnabled(md->hasText());
+    //    if (const QMimeData *md = QApplication::clipboard()->mimeData())
+    //        f_paste->setEnabled(md->hasText());
 #endif
 }
 
@@ -589,7 +628,7 @@ void Escriba::indent(int delta) {
     int ind = bfmt.indent();
     if (ind + delta >= 0) {
         bfmt.setIndent(ind + delta);
-        }
+    }
     cursor.setBlockFormat(bfmt);
     cursor.endEditBlock();
 }
@@ -598,21 +637,21 @@ void Escriba::setText(const QString& text) {
     if (text.isEmpty()) {
         setPlainText(text);
         return;
-        }
+    }
     if (text[0] == '<') {
         setHtml(text);
-      } else {
+    } else {
         setPlainText(text);
-        }
+    }
 }
 
 void Escriba::insertImage() {
     QSettings s;
     QString attdir = s.value("general/filedialog-path").toString();
     QString file = QFileDialog::getOpenFileName(this,
-                                    tr("Select an image"),
-                                    attdir,
-                                    tr("JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)"));
+                                                tr("Select an image"),
+                                                attdir,
+                                                tr("JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)"));
     QImage image = QImageReader(file).read();
 
     f_richTextEdit->dropImage(image, QFileInfo(file).suffix().toUpper().toLocal8Bit().data() );
