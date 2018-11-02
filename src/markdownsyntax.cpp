@@ -12,18 +12,12 @@ MarkdownSyntax::MarkdownSyntax(QTextDocument *parent)
             headingStr+="#";
         }
         Headings[i].setFontWeight(QFont::Bold);
-        Headings[i].setFontPointSize(30 - (i * 6));
+        Headings[i].setProperty(QTextFormat::FontSizeAdjustment, int(3-i));
         rule.pattern = QRegularExpression(headingStr+" .*");
         rule.format = Headings[i];
         highlightingRules.append(rule);
-
-        Headings[i].setFontWeight(QFont::Bold);
-        Headings[i].setFontPointSize(10);
-        rule.pattern = QRegularExpression(headingStr);
-        rule.format = Headings[i];
-        highlightingRules.append(rule);
-
     }
+
 
 
     keywordFormat.setForeground(Qt::darkBlue);
