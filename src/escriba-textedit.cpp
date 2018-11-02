@@ -5,6 +5,7 @@
 #include <QByteArray>
 #include <QBuffer>
 #include <stdlib.h>
+#include <QKeyEvent>
 
 Escriba_TextEdit::Escriba_TextEdit(QWidget *parent) : QTextEdit(parent) {
 }
@@ -44,6 +45,46 @@ void Escriba_TextEdit::insertFromMimeData(const QMimeData *source) {
 
 QMimeData *Escriba_TextEdit::createMimeDataFromSelection() const {
     return QTextEdit::createMimeDataFromSelection();
+}
+
+void Escriba_TextEdit::keyPressEvent(QKeyEvent *event)
+{
+    // Do regular key press event
+    QTextEdit::keyPressEvent(event);
+
+    // Custom
+    /// Set the current line after hitting return key to blank formatting
+    if(event->key() == Qt::Key_Return) {
+        QTextCursor cursor = this->textCursor();
+        QTextBlockFormat blockFormat = cursor.blockFormat();
+        cursor.beginEditBlock();
+
+        // standard
+        if (!cursor.hasSelection()) {
+            cursor.select(QTextCursor::BlockUnderCursor);
+        }
+
+        QTextCharFormat fmt;
+        m_curlineformat = fmt;
+        cursor.setCharFormat(fmt);
+        this->setCurrentCharFormat(fmt);
+
+        // Wrap things up
+        cursor.setCharFormat(fmt);
+        cursor.setBlockCharFormat(fmt);
+        this->setCurrentCharFormat(fmt);
+        cursor.endEditBlock();
+    }
+}
+
+QTextCharFormat Escriba_TextEdit::curlineformat() const
+{
+    return m_curlineformat;
+}
+
+void Escriba_TextEdit::setCurlineformat(const QTextCharFormat &curlineformat)
+{
+    m_curlineformat = curlineformat;
 }
 
 

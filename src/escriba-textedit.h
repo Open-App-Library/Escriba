@@ -12,10 +12,18 @@ class Escriba_TextEdit : public QTextEdit {
 
     void        dropImage(const QImage& image, const QString& format);
 
-  protected:
+    QTextCharFormat curlineformat() const;
+    void setCurlineformat(const QTextCharFormat &curlineformat);
+
+protected:
     bool        canInsertFromMimeData(const QMimeData *source) const;
     void        insertFromMimeData(const QMimeData *source);
     QMimeData  *createMimeDataFromSelection() const;
+
+    void keyPressEvent(QKeyEvent *event);
+
+private:
+    QTextCharFormat m_curlineformat;
 
 };
 

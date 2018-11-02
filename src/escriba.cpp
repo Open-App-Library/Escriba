@@ -263,11 +263,9 @@ void Escriba::textBold() {
     mergeFormatOnWordOrSelection(fmt);
 }
 
-
 void Escriba::focusInEvent(QFocusEvent *) {
     f_richTextEdit->setFocus(Qt::TabFocusReason);
 }
-
 
 void Escriba::textUnderline() {
     QTextCharFormat fmt;
@@ -373,13 +371,12 @@ void Escriba::textStyle(int index) {
         }
         if (heading_property != -255) {
             fmt.setProperty(QTextFormat::FontSizeAdjustment, int(heading_property));
-            QString c = QString("fmt.setProperty(QTextFormat::FontSizeAdjustment, int(%1));").arg(heading_property);
         }
     }
 
     // Wrap things up
     cursor.setCharFormat(fmt);
-    m_curlineformat = fmt;
+    f_richTextEdit->setCurlineformat(fmt);
     cursor.setBlockCharFormat(fmt);
     f_richTextEdit->setCurrentCharFormat(fmt);
     cursor.endEditBlock();
@@ -502,15 +499,14 @@ void Escriba::slotCursorPositionChanged() {
 }
 
 void Escriba::fontChanged(const QFont &f) {
-    //f_fontsize->setCurrentIndex(f_fontsize->findText(QString::number(f.pointSize())));
     f_bold->setChecked(f.bold());
     f_italic->setChecked(f.italic());
     f_underline->setChecked(f.underline());
     f_strikeout->setChecked(f.strikeOut());
 
-    if ( m_curlineformat.hasProperty( QTextFormat::FontSizeAdjustment ) )
+    if ( f_richTextEdit->curlineformat().hasProperty( QTextFormat::FontSizeAdjustment ) )
     {
-        switch ( m_curlineformat.intProperty(QTextFormat::FontSizeAdjustment) ) {
+        switch ( f_richTextEdit->curlineformat().intProperty(QTextFormat::FontSizeAdjustment) ) {
         case 3:
             f_paragraph->setCurrentIndex(ParagraphHeading1);
             break;
@@ -534,6 +530,8 @@ void Escriba::fontChanged(const QFont &f) {
             }
             break;
         }
+    } else {
+        f_paragraph->setCurrentIndex(ParagraphStandard);
     }
 
 //    if (f.pointSize() == m_fontsize_h1) {
