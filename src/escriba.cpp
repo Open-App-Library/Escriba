@@ -468,10 +468,12 @@ void Escriba::switchedEditorType(int index)
         QString html = QBasicHtmlExporter(f_richTextEdit->document()).toHtml();
         m_mdpanda->loadHtmlString( html );
         f_plainTextEdit->document()->setPlainText( m_mdpanda->markdown() );
+				f_plainTextEdit->setFocus();
     } else { // index == 0. This means user clicked Fancy tab
         // Ok, we must convert Markdown (rich-text) to HTML
         m_mdpanda->loadMarkdownString( f_plainTextEdit->toPlainText() );
-        f_richTextEdit->setText( m_mdpanda->html() );
+				f_richTextEdit->setHtml( m_mdpanda->html() );
+				f_richTextEdit->setFocus();
     }
 }
 

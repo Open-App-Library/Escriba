@@ -6,6 +6,7 @@
 #include <QBuffer>
 #include <stdlib.h>
 #include <QKeyEvent>
+#include <QDebug>
 
 Escriba_TextEdit::Escriba_TextEdit(QWidget *parent) : QTextEdit(parent) {
 }
@@ -87,6 +88,17 @@ void Escriba_TextEdit::setCurlineformat(const QTextCharFormat &curlineformat)
     m_curlineformat = curlineformat;
 }
 
+void Escriba_TextEdit::setHtml(const QString html)
+{
+	QString sanitized_html = html;
+
+	// Qt's HTML standard does not support <del>.
+	// Instead they support <s>. Do a replace!
+	sanitized_html.replace( "<del>", "<s>" );
+	sanitized_html.replace( "</del>", "</s>" );
+
+	QTextEdit::setHtml( sanitized_html );
+}
 
 void Escriba_TextEdit::dropImage(const QImage& image, const QString& format) {
     QByteArray bytes;
