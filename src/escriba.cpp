@@ -371,6 +371,7 @@ void Escriba::textStyle(int index) {
         }
         if (heading_property != -255) {
             fmt.setProperty(QTextFormat::FontSizeAdjustment, int(heading_property));
+						fmt.setFontWeight(QFont::Bold);
         }
     }
 

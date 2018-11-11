@@ -58,7 +58,7 @@
         <number>0</number>
        </property>
        <property name="topMargin">
-        <number>5</number>
+        <number>0</number>
        </property>
        <property name="rightMargin">
         <number>0</number>
@@ -66,6 +66,30 @@
        <property name="bottomMargin">
         <number>0</number>
        </property>
+       <item>
+        <widget class="QLineEdit" name="lineEdit">
+         <property name="font">
+          <font>
+           <pointsize>20</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+           <underline>false</underline>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">border: 0;
+padding: 0;
+background: palette(window);
+padding: 5px;</string>
+         </property>
+         <property name="text">
+          <string>Title</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
        <item>
         <widget class="QWidget" name="f_toolbar" native="true">
          <property name="sizePolicy">
@@ -378,6 +402,11 @@
        </item>
        <item>
         <widget class="Escriba_TextEdit" name="f_richTextEdit">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="autoFormatting">
           <set>QTextEdit::AutoNone</set>
          </property>
