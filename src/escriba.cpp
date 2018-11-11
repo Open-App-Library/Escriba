@@ -380,6 +380,8 @@ void Escriba::textStyle(int index) {
     cursor.setBlockCharFormat(fmt);
     f_richTextEdit->setCurrentCharFormat(fmt);
     cursor.endEditBlock();
+
+    f_richTextEdit->setFocus();
 }
 
 void Escriba::textFgColor() {
@@ -466,17 +468,22 @@ void Escriba::switchedEditorType(int index)
         QString html = QBasicHtmlExporter(f_richTextEdit->document()).toHtml();
         m_mdpanda->loadHtmlString( html );
         f_plainTextEdit->document()->setPlainText( m_mdpanda->markdown() );
+				f_plainTextEdit->setFocus();
     } else { // index == 0. This means user clicked Fancy tab
         // Ok, we must convert Markdown (rich-text) to HTML
         m_mdpanda->loadMarkdownString( f_plainTextEdit->toPlainText() );
-        f_richTextEdit->setText( m_mdpanda->html() );
+				f_richTextEdit->setHtml( m_mdpanda->html() );
+				f_richTextEdit->setFocus();
     }
 }
 
 void Escriba::slotCursorPositionChanged() {
     QTextList *l = f_richTextEdit->textCursor().currentList();
-    if (m_lastBlockList && (l == m_lastBlockList || (l != nullptr && m_lastBlockList != nullptr
-                                                     && l->format().style() == m_lastBlockList->format().style()))) {
+		QTextCharFormat f = f_richTextEdit->textCursor().charFormat();
+		f_richTextEdit->setCurlineformat(f);
+    if (m_lastBlockList && (l == m_lastBlockList ||
+														(l != nullptr && m_lastBlockList != nullptr &&
+														 l->format().style() == m_lastBlockList->format().style()))) {
         return;
     }
     m_lastBlockList = l;
@@ -660,4 +667,3 @@ Escriba::~Escriba()
 {
     delete m_mdpanda;
 }
-

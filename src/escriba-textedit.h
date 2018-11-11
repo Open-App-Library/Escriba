@@ -14,6 +14,7 @@ class Escriba_TextEdit : public QTextEdit {
 
     QTextCharFormat curlineformat() const;
     void setCurlineformat(const QTextCharFormat &curlineformat);
+	  void setHtml(const QString html);
 
 protected:
     bool        canInsertFromMimeData(const QMimeData *source) const;

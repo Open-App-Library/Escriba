@@ -6,6 +6,7 @@
 #include <QBuffer>
 #include <stdlib.h>
 #include <QKeyEvent>
+#include <QDebug>
 
 Escriba_TextEdit::Escriba_TextEdit(QWidget *parent) : QTextEdit(parent) {
 }
@@ -87,6 +88,23 @@ void Escriba_TextEdit::setCurlineformat(const QTextCharFormat &curlineformat)
     m_curlineformat = curlineformat;
 }
 
+void Escriba_TextEdit::setHtml(const QString html)
+{
+	QString sanitized_html = html;
+	sanitized_html.prepend("<style>pre { background: #474747; margin: 20px 10px; font-family: monospace; color: white;}</style>");
+	// Qt's HTML standard does not support <del>.
+	// Instead they support <s>. Do a replace!
+	sanitized_html.replace( "<del>", "<s>" );
+	sanitized_html.replace( "</del>", "</s>" );
+
+	sanitized_html.replace(QRegExp("[\\s\n\\n]+</code>"), "</code>");
+
+	// Add a <p> if a </pre> is the last element in document.
+	// This allows the user to not...be stuck forever in a code block.
+	sanitized_html.replace(QRegExp("</pre>[\n]?$"), "</pre><p></p>");
+	qDebug() << sanitized_html;
+	QTextEdit::setHtml( sanitized_html );
+}
 
 void Escriba_TextEdit::dropImage(const QImage& image, const QString& format) {
     QByteArray bytes;
