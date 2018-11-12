@@ -45,6 +45,7 @@ public:
 	~Escriba();
 
 	QString toMarkdown() const;
+	void    setMarkdown(QString title, QString markdown);
 	void    setMarkdown(QString markdown);
 	QTextDocument *document() { return f_richTextEdit->document(); }
 	QTextCursor    textCursor() const { return f_richTextEdit->textCursor(); }

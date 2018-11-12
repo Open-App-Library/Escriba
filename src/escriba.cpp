@@ -559,6 +559,7 @@ void Escriba::fontChanged(const QFont &f) {
 //            f_paragraph->setCurrentIndex(ParagraphStandard);
 //        }
 //    }
+
     if (f_richTextEdit->textCursor().currentList()) {
         QTextListFormat lfmt = f_richTextEdit->textCursor().currentList()->format();
         if (lfmt.style() == QTextListFormat::ListDisc) {
@@ -620,6 +621,12 @@ QString Escriba::toMarkdown() const
 	}
 	// User is in markdown editor. Return plain text.
 	return f_plainTextEdit->toPlainText();
+}
+
+void Escriba::setMarkdown(QString title, QString markdown)
+{
+	f_documentTitle->setText( title );
+	setMarkdown( markdown );
 }
 
 void Escriba::setMarkdown(QString markdown)
