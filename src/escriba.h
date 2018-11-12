@@ -44,6 +44,8 @@ public:
 	Escriba(QWidget *parent = nullptr);
 	~Escriba();
 
+	QString title() const;
+	void    setTitle(QString title);
 	QString toMarkdown() const;
 	void    setMarkdown(QString title, QString markdown);
 	void    setMarkdown(QString markdown);
@@ -73,6 +75,10 @@ protected slots:
 	void insertImage();
 	void textSource();
 	void switchedEditorType(int index); // User has clicked the "Fancy" or "Markdown" tab
+	void slot_documentTitleChanged(QString title);
+
+signals:
+	void documentTitleChanged(QString title);
 
 protected:
 	void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
@@ -103,6 +109,7 @@ private:
 	MarkdownSyntax *m_markdownSyntax;
 	MarkdownPandaQt *m_mdpanda;
 	EditorTypes m_active_editor=FancyEditor;
+	QString m_documentTitle;
 };
 
 #endif
