@@ -470,11 +470,13 @@ void Escriba::switchedEditorType(int index)
         m_mdpanda->loadHtmlString( html );
         f_plainTextEdit->document()->setPlainText( m_mdpanda->markdown() );
 				f_plainTextEdit->setFocus();
+				m_active_editor = MarkdownEditor;
     } else { // index == 0. This means user clicked Fancy tab
         // Ok, we must convert Markdown (rich-text) to HTML
         m_mdpanda->loadMarkdownString( f_plainTextEdit->toPlainText() );
 				f_richTextEdit->setHtml( m_mdpanda->html() );
 				f_richTextEdit->setFocus();
+				m_active_editor = FancyEditor;
     }
 }
 
@@ -609,25 +611,40 @@ void Escriba::slotClipboardDataChanged() {
 #endif
 }
 
-QString Escriba::toHtml() const {
-    QString s = f_richTextEdit->toHtml();
-    // convert emails to links
-    s = s.replace(QRegExp("(<[^a][^>]+>(?:<span[^>]+>)?|\\s)([a-zA-Z\\d]+@[a-zA-Z\\d]+\\.[a-zA-Z]+)"), "\\1<a href=\"mailto:\\2\">\\2</a>");
-    // convert links
-    s = s.replace(QRegExp("(<[^a][^>]+>(?:<span[^>]+>)?|\\s)((?:https?|ftp|file)://[^\\s'\"<>]+)"), "\\1<a href=\"\\2\">\\2</a>");
-    // see also: Utils::linkify()
-    return s;
+QString Escriba::toMarkdown() const
+{
+	if (m_active_editor == FancyEditor) {
+		QString html = QBasicHtmlExporter(f_richTextEdit->document()).toHtml();
+		m_mdpanda->loadHtmlString( html );
+		return m_mdpanda->markdown();
+	}
+	// User is in markdown editor. Return plain text.
+	return f_plainTextEdit->toPlainText();
 }
 
-void Escriba::increaseIndentation() {
+void Escriba::setMarkdown(QString markdown)
+{
+	// TODO: Add some sort of saving mechanism so we do not erase unsaved note
+	if (m_active_editor == MarkdownEditor) {
+		f_plainTextEdit->document()->setPlainText( markdown );
+	} else {
+		m_mdpanda->loadMarkdownString( markdown );
+		f_richTextEdit->setHtml( m_mdpanda->html() );
+	}
+}
+
+void Escriba::increaseIndentation()
+{
     indent(+1);
 }
 
-void Escriba::decreaseIndentation() {
+void Escriba::decreaseIndentation()
+{
     indent(-1);
 }
 
-void Escriba::indent(int delta) {
+void Escriba::indent(int delta)
+{
     QTextCursor cursor = f_richTextEdit->textCursor();
     cursor.beginEditBlock();
     QTextBlockFormat bfmt = cursor.blockFormat();
@@ -637,18 +654,6 @@ void Escriba::indent(int delta) {
     }
     cursor.setBlockFormat(bfmt);
     cursor.endEditBlock();
-}
-
-void Escriba::setText(const QString& text) {
-    if (text.isEmpty()) {
-        setPlainText(text);
-        return;
-    }
-    if (text[0] == '<') {
-        setHtml(text);
-    } else {
-        setPlainText(text);
-    }
 }
 
 void Escriba::insertImage() {

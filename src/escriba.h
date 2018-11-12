@@ -1,4 +1,7 @@
 /*
+** Copyright (C) 2018 Doug Beney (OpenAppLibrary.org - FloeMedia, LLC)
+** Contact: https://openapplibrary.org/contact
+**
 ** Copyright (C) 2013 Jiří Procházka (Hobrasoft)
 ** Contact: http://www.hobrasoft.cz/
 **
@@ -24,6 +27,7 @@
 #ifndef ESCRIBA_H
 #define ESCRIBA_H
 
+#include <QWidget>
 #include <QPointer>
 #include "ui_escriba.h"
 #include "markdownsyntax.h"
@@ -35,72 +39,69 @@ class MarkdownPandaQt;
  * @Brief A simple rich-text editor
  */
 class Escriba : public QWidget, protected Ui::Escriba {
-    Q_OBJECT
-  public:
-    Escriba(QWidget *parent = nullptr);
-    ~Escriba();
+	Q_OBJECT
+public:
+	Escriba(QWidget *parent = nullptr);
+	~Escriba();
 
-    QString toPlainText() const { return f_richTextEdit->toPlainText(); }
-    QString toHtml() const;
-    QTextDocument *document() { return f_richTextEdit->document(); }
-    QTextCursor    textCursor() const { return f_richTextEdit->textCursor(); }
-    void           setTextCursor(const QTextCursor& cursor) { f_richTextEdit->setTextCursor(cursor); }
+	QString toMarkdown() const;
+	void    setMarkdown(QString markdown);
+	QTextDocument *document() { return f_richTextEdit->document(); }
+	QTextCursor    textCursor() const { return f_richTextEdit->textCursor(); }
+	void           setTextCursor(const QTextCursor& cursor) { f_richTextEdit->setTextCursor(cursor); }
 
-  public slots:
-    void setText(const QString &text);
+protected slots:
+	void textRemoveFormat();
+	void textRemoveAllFormat();
+	void textBold();
+	void textUnderline();
+	void textStrikeout();
+	void textItalic();
+	void textSize(const QString &p);
+	void textLink(bool checked);
+	void textStyle(int index);
+	void textFgColor();
+	void textBgColor();
+	void listBullet(bool checked);
+	void listOrdered(bool checked);
+	void slotCurrentCharFormatChanged(const QTextCharFormat &format);
+	void slotCursorPositionChanged();
+	void slotClipboardDataChanged();
+	void increaseIndentation();
+	void decreaseIndentation();
+	void insertImage();
+	void textSource();
+	void switchedEditorType(int index); // User has clicked the "Fancy" or "Markdown" tab
 
-  protected slots:
-    void setPlainText(const QString &text) { f_richTextEdit->setPlainText(text); }
-    void setHtml(const QString &text)      { f_richTextEdit->setHtml(text); }
-    void textRemoveFormat();
-    void textRemoveAllFormat();
-    void textBold();
-    void textUnderline();
-    void textStrikeout();
-    void textItalic();
-    void textSize(const QString &p);
-    void textLink(bool checked);
-    void textStyle(int index);
-    void textFgColor();
-    void textBgColor();
-    void listBullet(bool checked);
-    void listOrdered(bool checked);
-    void slotCurrentCharFormatChanged(const QTextCharFormat &format);
-    void slotCursorPositionChanged();
-    void slotClipboardDataChanged();
-    void increaseIndentation();
-    void decreaseIndentation();
-    void insertImage();
-    void textSource();
-    void switchedEditorType(int index); // User has clicked the "Fancy" or "Markdown" tab
+protected:
+	void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
+	void fontChanged(const QFont &f);
+	void fgColorChanged(const QColor &c);
+	void bgColorChanged(const QColor &c);
+	void list(bool checked, QTextListFormat::Style style);
+	void indent(int delta);
+	void focusInEvent(QFocusEvent *event);
 
-  protected:
-    void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
-    void fontChanged(const QFont &f);
-    void fgColorChanged(const QColor &c);
-    void bgColorChanged(const QColor &c);
-    void list(bool checked, QTextListFormat::Style style);
-    void indent(int delta);
-    void focusInEvent(QFocusEvent *event);
+	QStringList m_paragraphItems;
+	int m_fontsize_h1;
+	int m_fontsize_h2;
+	int m_fontsize_h3;
+	int m_fontsize_h4;
 
-    QStringList m_paragraphItems;
-    int m_fontsize_h1;
-    int m_fontsize_h2;
-    int m_fontsize_h3;
-    int m_fontsize_h4;
+	enum ParagraphItems { ParagraphStandard,
+												ParagraphHeading1,
+												ParagraphHeading2,
+												ParagraphHeading3,
+												ParagraphHeading4,
+												ParagraphMonospace };
+	enum EditorTypes {FancyEditor, MarkdownEditor};
 
-    enum ParagraphItems { ParagraphStandard = 0,
-                          ParagraphHeading1,
-                          ParagraphHeading2,
-                          ParagraphHeading3,
-                          ParagraphHeading4,
-                          ParagraphMonospace };
-
-    QPointer<QTextList> m_lastBlockList;
+	QPointer<QTextList> m_lastBlockList;
 
 private:
-    MarkdownSyntax *m_markdownSyntax;
-    MarkdownPandaQt *m_mdpanda;
+	MarkdownSyntax *m_markdownSyntax;
+	MarkdownPandaQt *m_mdpanda;
+	EditorTypes m_active_editor=FancyEditor;
 };
 
 #endif
