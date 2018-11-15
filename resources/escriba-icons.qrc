@@ -1,17 +1,16 @@
 <RCC>
-    <qresource prefix="/icons">
-        <file>breeze-escriba/16x16/edit-link.svg</file>
-        <file>breeze-escriba/16x16/edit-redo.svg</file>
-        <file>breeze-escriba/16x16/edit-undo.svg</file>
-        <file>breeze-escriba/16x16/format-list-ordered.svg</file>
-        <file>breeze-escriba/16x16/format-list-unordered.svg</file>
-        <file>breeze-escriba/16x16/format-text-bold.svg</file>
-        <file>breeze-escriba/16x16/format-text-italic.svg</file>
-        <file>breeze-escriba/16x16/format-text-strikethrough.svg</file>
-        <file>breeze-escriba/16x16/format-text-underline.svg</file>
-        <file>breeze-escriba/16x16/insert-link.svg</file>
-        <file>breeze-escriba/16x16/overflow-menu.svg</file>
-        <file>breeze-escriba/index.theme</file>
-        <file>breeze-escriba/16x16/insert-image.svg</file>
+    <qresource prefix="/escriba">
+        <file>icons/edit-link.svg</file>
+        <file>icons/edit-redo.svg</file>
+        <file>icons/edit-undo.svg</file>
+        <file>icons/format-list-ordered.svg</file>
+        <file>icons/format-list-unordered.svg</file>
+        <file>icons/format-text-bold.svg</file>
+        <file>icons/format-text-italic.svg</file>
+        <file>icons/format-text-strikethrough.svg</file>
+        <file>icons/format-text-underline.svg</file>
+        <file>icons/insert-link.svg</file>
+        <file>icons/overflow-menu.svg</file>
+        <file>icons/insert-image.svg</file>
     </qresource>
 </RCC>

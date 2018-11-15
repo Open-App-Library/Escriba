@@ -13,6 +13,3 @@ TARGET = Escriba
 TEMPLATE = app
 DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
-
-RESOURCES += \
-    resources/escriba-icons.qrc

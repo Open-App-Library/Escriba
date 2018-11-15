@@ -46,10 +46,12 @@ Escriba::Escriba(QWidget *parent) :
     QWidget(parent),
     m_mdpanda(new MarkdownPandaQt())
 {
+    QIcon::setFallbackSearchPaths( QIcon::fallbackSearchPaths() << ":/escriba/icons" );
     setupUi(this);
     m_lastBlockList = nullptr;
 
     f_richTextEdit->setTabStopDistance(40);
+    f_plainTextEdit->setTabStopDistance(40);
 
     m_markdownSyntax = new MarkdownSyntax( f_plainTextEdit->document() );
 
