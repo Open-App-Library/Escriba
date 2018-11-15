@@ -12,14 +12,15 @@
 // Short and Sweet Example
 int main(int argc, char *argv[])
 {
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QApplication a(argc, argv);
+	QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+	QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+	QApplication a(argc, argv);
 
-    QIcon::setThemeName("breeze-escriba");
-    Escriba *editor = new Escriba();
-    editor->show();
+	QIcon::setThemeName("breeze-escriba");
+	Escriba *editor = new Escriba();
+	editor->show();
 
-    return a.exec();
+	return a.exec();
 }
 
 
