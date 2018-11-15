@@ -23,4 +23,4 @@ include($$PWD/QBasicHtmlExporter/QBasicHtmlExporterInclude.pro)
 INCLUDEPATH += $$PWD/QBasicHtmlExporter
 
 RESOURCES += \
-    resources/escriba-icons.qrc
+    $$PWD/resources/escriba-icons.qrc
