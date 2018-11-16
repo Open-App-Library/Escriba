@@ -257,7 +257,7 @@ padding: 5px;</string>
              <string>Link</string>
             </property>
             <property name="icon">
-             <iconset theme="edit-link">
+             <iconset theme="insert-link">
               <normaloff>.</normaloff>.</iconset>
             </property>
             <property name="iconSize">

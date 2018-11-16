@@ -47,6 +47,7 @@ Escriba::Escriba(QWidget *parent) :
     m_mdpanda(new MarkdownPandaQt())
 {
     QIcon::setFallbackSearchPaths( QIcon::fallbackSearchPaths() << ":/escriba/icons" );
+
     setupUi(this);
     m_lastBlockList = nullptr;
 

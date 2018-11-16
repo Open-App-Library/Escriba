@@ -16,7 +16,6 @@ int main(int argc, char *argv[])
 	QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 	QApplication a(argc, argv);
 
-	QIcon::setThemeName("breeze-escriba");
 	Escriba *editor = new Escriba();
 	editor->show();
 
