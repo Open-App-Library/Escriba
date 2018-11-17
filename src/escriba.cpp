@@ -120,9 +120,6 @@ Escriba::Escriba(QWidget *parent) :
     connect(document(), &QTextDocument::contentsChanged,
             this,       &Escriba::slot_documentChanged);
 
-    connect(f_documentTitle, &QLineEdit::textChanged,
-            this, &Escriba::slot_documentTitleChanged);
-
 #ifndef QT_NO_CLIPBOARD
     connect(QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(slotClipboardDataChanged()));
 #endif
@@ -493,14 +490,6 @@ void Escriba::slot_documentChanged()
     emit documentChanged(toMarkdown());
 }
 
-void Escriba::slot_documentTitleChanged(QString title)
-{
-    if (!QString::compare(m_documentTitle, title)) // If same, exit
-        return;
-    m_documentTitle = title;
-    emit documentTitleChanged( m_documentTitle );
-}
-
 void Escriba::slotCursorPositionChanged() {
     QTextList *l = f_richTextEdit->textCursor().currentList();
     QTextCharFormat f = f_richTextEdit->textCursor().charFormat();
@@ -633,16 +622,6 @@ void Escriba::slotClipboardDataChanged() {
 #endif
 }
 
-QString Escriba::title() const
-{
-    return f_documentTitle->text();
-}
-
-void Escriba::setTitle(QString title)
-{
-    f_documentTitle->setText( title );
-}
-
 QString Escriba::toMarkdown() const
 {
     if (m_active_editor == FancyEditor) {
@@ -652,12 +631,6 @@ QString Escriba::toMarkdown() const
     }
     // User is in markdown editor. Return plain text.
     return f_plainTextEdit->toPlainText();
-}
-
-void Escriba::setMarkdown(QString title, QString markdown)
-{
-    setTitle( title );
-    setMarkdown( markdown );
 }
 
 void Escriba::setMarkdown(QString markdown)
@@ -710,4 +683,9 @@ void Escriba::insertImage() {
 Escriba::~Escriba()
 {
     delete m_mdpanda;
+}
+
+QWidget *Escriba::addonsArea()
+{
+    return f_addonsArea;
 }

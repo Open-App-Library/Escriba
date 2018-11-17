@@ -42,12 +42,11 @@ class Escriba : public QWidget, protected Ui::Escriba {
 	Q_OBJECT
 public:
 	Escriba(QWidget *parent = nullptr);
-	~Escriba();
+    ~Escriba();
 
-	QString title() const;
-	void    setTitle(QString title);
+    QWidget *addonsArea();
+
 	QString toMarkdown() const;
-	void    setMarkdown(QString title, QString markdown);
 	void    setMarkdown(QString markdown);
 	QTextDocument *document() { return f_richTextEdit->document(); }
 	QTextCursor    textCursor() const { return f_richTextEdit->textCursor(); }
@@ -77,11 +76,9 @@ protected slots:
 	void switchedEditorType(int index); // User has clicked the "Fancy" or "Markdown" tab
 
     void slot_documentChanged();
-	void slot_documentTitleChanged(QString title);
 
 signals:
     void documentChanged(QString markdown);
-	void documentTitleChanged(QString title);
 
 protected:
 	void mergeFormatOnWordOrSelection(const QTextCharFormat &format);

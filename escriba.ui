@@ -30,28 +30,7 @@
     <number>1</number>
    </property>
    <item>
-    <widget class="QLineEdit" name="f_documentTitle">
-     <property name="font">
-      <font>
-       <pointsize>20</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-       <underline>false</underline>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">border: 0;
-padding: 0;
-background: palette(window);
-padding: 5px;</string>
-     </property>
-     <property name="text">
-      <string>Title</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-     </property>
-    </widget>
+    <widget class="QWidget" name="f_addonsArea" native="true"/>
    </item>
    <item>
     <widget class="QTabWidget" name="f_editorTypeTab">
