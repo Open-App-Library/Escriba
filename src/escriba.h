@@ -75,9 +75,12 @@ protected slots:
 	void insertImage();
 	void textSource();
 	void switchedEditorType(int index); // User has clicked the "Fancy" or "Markdown" tab
+
+    void slot_documentChanged();
 	void slot_documentTitleChanged(QString title);
 
 signals:
+    void documentChanged(QString markdown);
 	void documentTitleChanged(QString title);
 
 protected:

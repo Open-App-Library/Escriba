@@ -117,8 +117,11 @@ Escriba::Escriba(QWidget *parent) :
     connect(f_editorTypeTab, SIGNAL(currentChanged(int)),
             this, SLOT(switchedEditorType(int)));
 
-		connect(f_documentTitle, &QLineEdit::textChanged,
-						this, &Escriba::slot_documentTitleChanged);
+    connect(document(), &QTextDocument::contentsChanged,
+            this,       &Escriba::slot_documentChanged);
+
+    connect(f_documentTitle, &QLineEdit::textChanged,
+            this, &Escriba::slot_documentTitleChanged);
 
 #ifndef QT_NO_CLIPBOARD
     connect(QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(slotClipboardDataChanged()));
@@ -376,7 +379,7 @@ void Escriba::textStyle(int index) {
         }
         if (heading_property != -255) {
             fmt.setProperty(QTextFormat::FontSizeAdjustment, int(heading_property));
-						fmt.setFontWeight(QFont::Bold);
+            fmt.setFontWeight(QFont::Bold);
         }
     }
 
@@ -474,32 +477,37 @@ void Escriba::switchedEditorType(int index)
         QString html = QBasicHtmlExporter(f_richTextEdit->document()).toHtml();
         m_mdpanda->loadHtmlString( html );
         f_plainTextEdit->document()->setPlainText( m_mdpanda->markdown() );
-				f_plainTextEdit->setFocus();
-				m_active_editor = MarkdownEditor;
+        f_plainTextEdit->setFocus();
+        m_active_editor = MarkdownEditor;
     } else { // index == 0. This means user clicked Fancy tab
         // Ok, we must convert Markdown (rich-text) to HTML
         m_mdpanda->loadMarkdownString( f_plainTextEdit->toPlainText() );
-				f_richTextEdit->setHtml( m_mdpanda->html() );
-				f_richTextEdit->setFocus();
-				m_active_editor = FancyEditor;
+        f_richTextEdit->setHtml( m_mdpanda->html() );
+        f_richTextEdit->setFocus();
+        m_active_editor = FancyEditor;
     }
+}
+
+void Escriba::slot_documentChanged()
+{
+    emit documentChanged(toMarkdown());
 }
 
 void Escriba::slot_documentTitleChanged(QString title)
 {
-	if (!QString::compare(m_documentTitle, title)) // If same, exit
-		return;
-	m_documentTitle = title;
-	emit documentTitleChanged( m_documentTitle );
+    if (!QString::compare(m_documentTitle, title)) // If same, exit
+        return;
+    m_documentTitle = title;
+    emit documentTitleChanged( m_documentTitle );
 }
 
 void Escriba::slotCursorPositionChanged() {
     QTextList *l = f_richTextEdit->textCursor().currentList();
-		QTextCharFormat f = f_richTextEdit->textCursor().charFormat();
-		f_richTextEdit->setCurlineformat(f);
+    QTextCharFormat f = f_richTextEdit->textCursor().charFormat();
+    f_richTextEdit->setCurlineformat(f);
     if (m_lastBlockList && (l == m_lastBlockList ||
-														(l != nullptr && m_lastBlockList != nullptr &&
-														 l->format().style() == m_lastBlockList->format().style()))) {
+                            (l != nullptr && m_lastBlockList != nullptr &&
+                             l->format().style() == m_lastBlockList->format().style()))) {
         return;
     }
     m_lastBlockList = l;
@@ -542,9 +550,9 @@ void Escriba::fontChanged(const QFont &f) {
         case 0:
             f_paragraph->setCurrentIndex(ParagraphHeading4);
             break;
-        //        case -1:
-        //            f_paragraph->setCurrentIndex(ParagraphHeading5);
-        //            break;
+            //        case -1:
+            //            f_paragraph->setCurrentIndex(ParagraphHeading5);
+            //            break;
         default:
             if (f.fixedPitch() && f.family() == "Monospace") {
                 f_paragraph->setCurrentIndex(ParagraphMonospace);
@@ -557,21 +565,21 @@ void Escriba::fontChanged(const QFont &f) {
         f_paragraph->setCurrentIndex(ParagraphStandard);
     }
 
-//    if (f.pointSize() == m_fontsize_h1) {
-//        f_paragraph->setCurrentIndex(ParagraphHeading1);
-//    } else if (f.pointSize() == m_fontsize_h2) {
-//        f_paragraph->setCurrentIndex(ParagraphHeading2);
-//    } else if (f.pointSize() == m_fontsize_h3) {
-//        f_paragraph->setCurrentIndex(ParagraphHeading3);
-//    } else if (f.pointSize() == m_fontsize_h4) {
-//        f_paragraph->setCurrentIndex(ParagraphHeading4);
-//    } else {
-//        if (f.fixedPitch() && f.family() == "Monospace") {
-//            f_paragraph->setCurrentIndex(ParagraphMonospace);
-//        } else {
-//            f_paragraph->setCurrentIndex(ParagraphStandard);
-//        }
-//    }
+    //    if (f.pointSize() == m_fontsize_h1) {
+    //        f_paragraph->setCurrentIndex(ParagraphHeading1);
+    //    } else if (f.pointSize() == m_fontsize_h2) {
+    //        f_paragraph->setCurrentIndex(ParagraphHeading2);
+    //    } else if (f.pointSize() == m_fontsize_h3) {
+    //        f_paragraph->setCurrentIndex(ParagraphHeading3);
+    //    } else if (f.pointSize() == m_fontsize_h4) {
+    //        f_paragraph->setCurrentIndex(ParagraphHeading4);
+    //    } else {
+    //        if (f.fixedPitch() && f.family() == "Monospace") {
+    //            f_paragraph->setCurrentIndex(ParagraphMonospace);
+    //        } else {
+    //            f_paragraph->setCurrentIndex(ParagraphStandard);
+    //        }
+    //    }
 
     if (f_richTextEdit->textCursor().currentList()) {
         QTextListFormat lfmt = f_richTextEdit->textCursor().currentList()->format();
@@ -627,40 +635,40 @@ void Escriba::slotClipboardDataChanged() {
 
 QString Escriba::title() const
 {
-	return f_documentTitle->text();
+    return f_documentTitle->text();
 }
 
 void Escriba::setTitle(QString title)
 {
-	f_documentTitle->setText( title );
+    f_documentTitle->setText( title );
 }
 
 QString Escriba::toMarkdown() const
 {
-	if (m_active_editor == FancyEditor) {
-		QString html = QBasicHtmlExporter(f_richTextEdit->document()).toHtml();
-		m_mdpanda->loadHtmlString( html );
-		return m_mdpanda->markdown();
-	}
-	// User is in markdown editor. Return plain text.
-	return f_plainTextEdit->toPlainText();
+    if (m_active_editor == FancyEditor) {
+        QString html = QBasicHtmlExporter(f_richTextEdit->document()).toHtml();
+        m_mdpanda->loadHtmlString( html );
+        return m_mdpanda->markdown();
+    }
+    // User is in markdown editor. Return plain text.
+    return f_plainTextEdit->toPlainText();
 }
 
 void Escriba::setMarkdown(QString title, QString markdown)
 {
-	setTitle( title );
-	setMarkdown( markdown );
+    setTitle( title );
+    setMarkdown( markdown );
 }
 
 void Escriba::setMarkdown(QString markdown)
 {
-	// TODO: Add some sort of saving mechanism so we do not erase unsaved note
-	if (m_active_editor == MarkdownEditor) {
-		f_plainTextEdit->document()->setPlainText( markdown );
-	} else {
-		m_mdpanda->loadMarkdownString( markdown );
-		f_richTextEdit->setHtml( m_mdpanda->html() );
-	}
+    // TODO: Add some sort of saving mechanism so we do not erase unsaved note
+    if (m_active_editor == MarkdownEditor) {
+        f_plainTextEdit->document()->setPlainText( markdown );
+    } else {
+        m_mdpanda->loadMarkdownString( markdown );
+        f_richTextEdit->setHtml( m_mdpanda->html() );
+    }
 }
 
 void Escriba::increaseIndentation()
