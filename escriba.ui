@@ -365,17 +365,6 @@
             </property>
            </spacer>
           </item>
-          <item>
-           <widget class="QToolButton" name="f_menu">
-            <property name="text">
-             <string>...</string>
-            </property>
-            <property name="icon">
-             <iconset theme="overflow-menu">
-              <normaloff>.</normaloff>.</iconset>
-            </property>
-           </widget>
-          </item>
          </layout>
         </widget>
        </item>
@@ -432,9 +421,6 @@
    <header>escriba-textedit.h</header>
   </customwidget>
  </customwidgets>
- <tabstops>
-  <tabstop>f_menu</tabstop>
- </tabstops>
  <resources/>
  <connections/>
 </ui>

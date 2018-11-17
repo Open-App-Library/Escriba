@@ -159,8 +159,8 @@ Escriba::Escriba(QWidget *parent) :
     menu->addAction(removeAllFormat);
     menu->addAction(removeFormat);
     menu->addAction(textsource);
-    f_menu->setMenu(menu);
-    f_menu->setPopupMode(QToolButton::InstantPopup);
+//    f_menu->setMenu(menu);
+//    f_menu->setPopupMode(QToolButton::InstantPopup);
 
     // lists
 
