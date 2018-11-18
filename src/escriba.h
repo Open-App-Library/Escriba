@@ -109,7 +109,6 @@ private:
 	MarkdownSyntax *m_markdownSyntax;
 	MarkdownPandaQt *m_mdpanda;
 	EditorTypes m_active_editor=FancyEditor;
-	QString m_documentTitle;
 };
 
 #endif
