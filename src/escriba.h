@@ -52,6 +52,9 @@ public:
 	QTextCursor    textCursor() const { return f_richTextEdit->textCursor(); }
 	void           setTextCursor(const QTextCursor& cursor) { f_richTextEdit->setTextCursor(cursor); }
 
+public slots:
+    void focusEditor();
+
 protected slots:
 	void textRemoveFormat();
 	void textRemoveAllFormat();

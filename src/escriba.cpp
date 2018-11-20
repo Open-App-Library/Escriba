@@ -641,7 +641,22 @@ void Escriba::setMarkdown(QString markdown)
 	} else {
 		m_mdpanda->loadMarkdownString( markdown );
 		f_richTextEdit->setHtml( m_mdpanda->html() );
-	}
+    }
+}
+
+void Escriba::focusEditor()
+{
+    if (m_active_editor == FancyEditor) {
+        f_richTextEdit->setFocus();
+        QTextCursor c = f_richTextEdit->textCursor();
+        c.movePosition(QTextCursor::End);
+        f_richTextEdit->setTextCursor(c);
+    } else {
+        f_plainTextEdit->setFocus();
+        QTextCursor c = f_plainTextEdit->textCursor();
+        c.movePosition(QTextCursor::End);
+        f_plainTextEdit->setTextCursor(c);
+    }
 }
 
 void Escriba::increaseIndentation()
