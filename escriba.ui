@@ -77,6 +77,22 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="styleSheet">
+          <string notr="true">QComboBox, QToolButton {
+	border: 1px solid #ccc;
+	margin: 2px;
+	padding: 2px 5px;
+}
+
+QToolButton {
+	border: 0;
+	margin-left: 0;
+}
+
+QComboBox {
+	padding: 2px 5px;
+}</string>
+         </property>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <property name="spacing">
            <number>2</number>
