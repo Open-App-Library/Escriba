@@ -1,6 +1,6 @@
 [submodule "markdownpanda"]
 	path = markdownpanda
-	url = git@gitlab.com:Open-App-Library/markdownpanda.git
+  url = git@github.com:Open-App-Library/Markdown-Panda.git
 [submodule "QBasicHtmlExporter"]
 	path = QBasicHtmlExporter
-	url = git@gitlab.com:Open-App-Library/QBasicHtmlExporter.git
+  url = git@github.com:Open-App-Library/QBasicHtmlExporter.git
